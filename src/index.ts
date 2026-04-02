@@ -158,3 +158,11 @@ const consulta4Realizada: Consulta = {
   ...consulta4,
   status: "realizada",
 };
+
+consultas.push(
+  consulta1,
+  consulta2Confirmada,
+  consulta3Cancelada!,
+  consulta4Realizada,
+  consulta5
+);
