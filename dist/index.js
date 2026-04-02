@@ -88,4 +88,46 @@ Valor: ${valorFormatado}
 Status: ${consulta.status}
 `;
 }
+const consulta1 = criarConsulta(1, medico1, paciente1, new Date(), 350);
+function listarConsultasPorStatus(consultas, status) {
+    return consultas.filter((consulta) => consulta.status === status);
+}
+function listarConsultasFuturas(consultas) {
+    const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0); // Zera horas para comparar apenas a data
+    return consultas.filter((consulta) => consulta.data >= hoje);
+}
+function calcularFaturamento(consultas) {
+    return consultas
+        .filter((consulta) => consulta.status === "realizada")
+        .reduce((total, consulta) => total + consulta.valor, 0);
+}
+const consultas = [];
+const consulta2 = criarConsulta(2, medico2, paciente2, new Date(2026, 0, 1), 450);
+const consulta3 = criarConsulta(3, medico3, paciente3, new Date(2026, 1, 15), 300);
+const consulta4 = criarConsulta(4, medico1, paciente2, new Date(2026, 2, 10), 400);
+const consulta5 = criarConsulta(5, medico2, paciente1, new Date(2026, 3, 20), 500);
+const consulta1Confirmada = confirmarConsulta(consulta1);
+const consulta2Confirmada = confirmarConsulta(consulta2);
+const consulta3Cancelada = cancelarConsulta(consulta3);
+const consulta4Realizada = Object.assign(Object.assign({}, consulta4), { status: "realizada" });
+const consulta5Realizada = Object.assign(Object.assign({}, consulta5), { status: "realizada" });
+consultas.push(consulta1Confirmada, consulta2Confirmada, consulta3Cancelada, consulta4Realizada, consulta5Realizada);
+console.log("=== TODAS AS CONSULTAS ===");
+consultas.forEach((consulta) => {
+    console.log(exibirConsulta(consulta));
+});
+console.log("=== CONSULTAS CONFIRMADAS ===");
+listarConsultasPorStatus(consultas, "confirmada").forEach((consulta) => {
+    console.log(exibirConsulta(consulta));
+});
+console.log("=== CONSULTAS FUTURAS ===");
+listarConsultasFuturas(consultas).forEach((consulta) => {
+    console.log(exibirConsulta(consulta));
+});
+console.log("=== FATURAMENTO ===");
+console.log(calcularFaturamento(consultas).toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+}));
 export {};

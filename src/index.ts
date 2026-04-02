@@ -19,6 +19,7 @@ const pediatria: Especialidade = {
   id: 3,
   nome: "Pediatria",
 };
+
 // Médicos
 const medico1: Medico = {
   id: 1,
@@ -41,6 +42,7 @@ const medico3: Medico = {
   especialidade: pediatria,
   ativo: true,
 };
+
 // Pacientes
 const paciente1: Paciente = {
   id: 1,
@@ -113,17 +115,6 @@ Status: ${consulta.status}
 `;
 }
 
-const consulta1 = criarConsulta(
-  1,
-  medico1,
-  paciente1,
-  new Date(),
-  350
-);
-const consultaConfirmada = confirmarConsulta(consulta1);
-console.log("=== CONSULTA CONFIRMADA ===");
-console.log(exibirConsulta(consultaConfirmada));
-
 function listarConsultasPorStatus(
   consultas: Consulta[],
   status: StatusConsulta
@@ -145,24 +136,57 @@ function calcularFaturamento(consultas: Consulta[]): number {
 
 const consultas: Consulta[] = [];
 
+// Criação das Consultas
+const consulta1 = criarConsulta(1, medico1, paciente1, new Date(2026, 0, 1),350);
 const consulta2 = criarConsulta(2, medico2, paciente2, new Date(2026, 0, 1), 450);
 const consulta3 = criarConsulta(3, medico3, paciente3, new Date(2026, 1, 15), 300);
 const consulta4 = criarConsulta(4, medico1, paciente2, new Date(2026, 2, 10), 400);
 const consulta5 = criarConsulta(5, medico2, paciente1, new Date(2026, 3, 20), 500);
 
+//Confirmadas
+const consulta1Confirmada = confirmarConsulta(consulta1);
 const consulta2Confirmada = confirmarConsulta(consulta2);
 
+//Canceladas
 const consulta3Cancelada = cancelarConsulta(consulta3);
 
+//Realizadas
 const consulta4Realizada: Consulta = {
   ...consulta4,
   status: "realizada",
 };
+const consulta5Realizada: Consulta = {
+  ...consulta5,
+  status: "realizada",
+};
 
 consultas.push(
-  consulta1,
+  consulta1Confirmada,
   consulta2Confirmada,
   consulta3Cancelada!,
   consulta4Realizada,
-  consulta5
+  consulta5Realizada
+);
+
+console.log("=== TODAS AS CONSULTAS ===");
+consultas.forEach((consulta) => {
+  console.log(exibirConsulta(consulta));
+});
+
+console.log("=== CONSULTAS CONFIRMADAS ===");
+listarConsultasPorStatus(consultas, "confirmada").forEach((consulta) => {
+  console.log(exibirConsulta(consulta));
+});
+
+console.log("=== CONSULTAS FUTURAS ===");
+listarConsultasFuturas(consultas).forEach((consulta) => {
+  console.log(exibirConsulta(consulta));
+});
+
+console.log("=== FATURAMENTO ===");
+console.log(
+  calcularFaturamento(consultas).toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  })
 );
