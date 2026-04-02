@@ -136,3 +136,9 @@ function listarConsultasFuturas(consultas: Consulta[]): Consulta[] {
   hoje.setHours(0, 0, 0, 0); // Zera horas para comparar apenas a data
   return consultas.filter((consulta) => consulta.data >= hoje);
 }
+
+function calcularFaturamento(consultas: Consulta[]): number {
+  return consultas
+    .filter((consulta) => consulta.status === "realizada")
+    .reduce((total, consulta) => total + consulta.valor, 0);
+}
