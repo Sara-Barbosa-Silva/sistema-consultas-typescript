@@ -142,3 +142,10 @@ function calcularFaturamento(consultas: Consulta[]): number {
     .filter((consulta) => consulta.status === "realizada")
     .reduce((total, consulta) => total + consulta.valor, 0);
 }
+
+const consultas: Consulta[] = [];
+
+const consulta2 = criarConsulta(2, medico2, paciente2, new Date(2026, 0, 1), 450);
+const consulta3 = criarConsulta(3, medico3, paciente3, new Date(2026, 1, 15), 300);
+const consulta4 = criarConsulta(4, medico1, paciente2, new Date(2026, 2, 10), 400);
+const consulta5 = criarConsulta(5, medico2, paciente1, new Date(2026, 3, 20), 500);
