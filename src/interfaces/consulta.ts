@@ -1,8 +1,13 @@
-import { Especialidade } from "../types/especialidade";
-export interface Medico {
+import { Medico } from "./medico";
+import { Paciente } from "../types/paciente";
+import { StatusConsulta } from "../types/statusConsulta";
+export interface Consulta {
   id: number;
-  nome: string;
-  crm: string;
-  especialidade: Especialidade;
-  ativo: boolean;
+  medico: Medico;
+  paciente: Paciente;
+  data: Date;
+  valor: number;
+  status: StatusConsulta;
+  observacoes?: string;
+
 }
